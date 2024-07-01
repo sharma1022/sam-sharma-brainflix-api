@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
-const randomName = require('random-name');
+const randomName = require("random-name");
 
 const videosFile = path.join(__dirname, "../data/video-details.json");
 
@@ -55,20 +55,47 @@ router.post("/:id/comments", (req, res) => {
     const selectedVideo = videoData.find((video) => video.id === videoId);
 
     const newComment = {
-        id: uuidv4(),
-        name: randomName.first() + " " + randomName.last(),
-        comment: req.body.comment,
-        likes:0,
-        timestamp: Date.now()
-    }
+      id: uuidv4(),
+      name: randomName.first() + " " + randomName.last(), //generating a random placeholder name
+      comment: req.body.comment,
+      likes: 0,
+      timestamp: Date.now(),
+    };
     selectedVideo.comments.push(newComment);
 
     fs.writeFile(videosFile, JSON.stringify(videoData), (err) => {
-        if(err){
-            return res.status(500).send(err);
-        }
-        res.status(201).send(newComment);
-    })
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.status(201).send(newComment);
+    });
+  });
+});
+
+//delete comment
+router.delete("/:videoId/comments/:commentId", (req, res) => {
+  fs.readFile(videosFile, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    const videoData = JSON.parse(data);
+    const { videoId, commentId } = req.params;
+    const selectedVideo = videoData.find((video) => video.id === videoId);
+    if (!selectedVideo) {
+      return req.status(404).send("Video not found.");
+    }
+    const commentIndex = selectedVideo.comments.findIndex(
+      (comment) => comment.id === commentId
+    );
+
+    selectedVideo.comments.splice(commentIndex, 1);
+
+    fs.writeFile(videosFile, JSON.stringify(videoData), (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.status(200).send("Comment Deleted");
+    });
   });
 });
 
