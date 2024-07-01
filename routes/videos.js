@@ -99,4 +99,32 @@ router.delete("/:videoId/comments/:commentId", (req, res) => {
   });
 });
 
+//like video
+router.put("/:videoId/likes", (req,res) => {
+    fs.readFile(videosFile, "utf8",(err,data)=> {
+        if (err) {
+            return res.status(500).send(err);
+          }
+          const videoData = JSON.parse(data);
+    const videoId = req.params.videoId;
+    const selectedVideo = videoData.find((video) => video.id === videoId);
+    if (!selectedVideo) {
+      return req.status(404).send("Video not found.");
+    }
+    const likeCount = selectedVideo.likes;
+    let likeCountInNumber = parseInt(likeCount.replace(/,/g, ''), 10);
+    likeCountInNumber++;
+    selectedVideo.likes =  likeCountInNumber.toLocaleString("en-US");
+
+    fs.writeFile(videosFile, JSON.stringify(videoData), (err) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        res.status(200).send("Video Liked");
+      });
+    })
+})
+
+
+
 module.exports = router;
