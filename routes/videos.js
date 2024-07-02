@@ -73,11 +73,12 @@ router.get("/:id", (req, res) => {
       return res.status(400).send("Video not found");
     }
     const viewsCount = selectedVideo.views;
-    let viewsCountInNumber = parseInt(viewsCount.replace(/,/g, ""), 10);
-
-    //update views
-    viewsCountInNumber++;
-    selectedVideo.views = viewsCountInNumber.toLocaleString("en-US");
+    let viewCount = selectedVideo.views;
+    if(typeof viewCount === "string"){
+        viewCount = parseInt(viewCount.replace(/,/g, ""), 10);
+    }
+    viewCount++;
+    selectedVideo.views = viewsCount.toLocaleString("en-US");
 
     fs.writeFile(videosFile, JSON.stringify(videoData), (err) => {
       if (err) {
@@ -161,10 +162,12 @@ router.put("/:videoId/comments/:commentId/likes", (req, res) => {
     const selectedComment = selectedVideo.comments.find(
       (comment) => comment.id === commentId
     );
-    const likeCount = selectedComment.likes;
-    let likeCountInNumber = parseInt(likeCount.replace(/,/g, ""), 10);
-    likeCountInNumber++;
-    selectedComment.likes = likeCountInNumber.toLocaleString("en-US");
+    let likeCount = selectedComment.likes;
+    if(typeof likeCount === "string"){
+        likeCount = parseInt(likeCount.replace(/,/g, ""), 10);
+    }
+    likeCount++;
+    selectedComment.likes = likeCount.toLocaleString("en-US");
 
     fs.writeFile(videosFile, JSON.stringify(videoData), (err) => {
       if (err) {
@@ -187,10 +190,12 @@ router.put("/:videoId/likes", (req, res) => {
     if (!selectedVideo) {
       return req.status(404).send("Video not found.");
     }
-    const likeCount = selectedVideo.likes;
-    let likeCountInNumber = parseInt(likeCount.replace(/,/g, ""), 10);
-    likeCountInNumber++;
-    selectedVideo.likes = likeCountInNumber.toLocaleString("en-US");
+    let likeCount = selectedVideo.likes;
+    if(typeof likeCount === "string"){
+        likeCount = parseInt(likeCount.replace(/,/g, ""), 10);
+    }
+    likeCount++;
+    selectedVideo.likes = likeCount.toLocaleString("en-US");
 
     fs.writeFile(videosFile, JSON.stringify(videoData), (err) => {
       if (err) {
