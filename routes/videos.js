@@ -74,19 +74,17 @@ router.get("/:id", (req, res) => {
     }
     const viewsCount = selectedVideo.views;
     let viewsCountInNumber = parseInt(viewsCount.replace(/,/g, ""), 10);
-    
+
     //update views
     viewsCountInNumber++;
     selectedVideo.views = viewsCountInNumber.toLocaleString("en-US");
 
     fs.writeFile(videosFile, JSON.stringify(videoData), (err) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-        res
-      .status(200)
-      .json(selectedVideo);
-      });
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.status(200).json(selectedVideo);
+    });
   });
 });
 
@@ -107,7 +105,7 @@ router.post("/:id/comments", (req, res) => {
       id: uuidv4(),
       name: randomName.first() + " " + randomName.last(), //generating a random placeholder name
       comment: req.body.comment,
-      likes: 0,
+      likes: "0",
       timestamp: Date.now(),
     };
     selectedVideo.comments.push(newComment);
@@ -144,6 +142,35 @@ router.delete("/:videoId/comments/:commentId", (req, res) => {
         return res.status(500).send(err);
       }
       res.status(200).send("Comment Deleted");
+    });
+  });
+});
+
+//like comment
+router.put("/:videoId/comments/:commentId/likes", (req, res) => {
+  fs.readFile(videosFile, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    const videoData = JSON.parse(data);
+    const { videoId, commentId } = req.params;
+    const selectedVideo = videoData.find((video) => video.id === videoId);
+    if (!selectedVideo) {
+      return req.status(404).send("Video not found.");
+    }
+    const selectedComment = selectedVideo.comments.find(
+      (comment) => comment.id === commentId
+    );
+    const likeCount = selectedComment.likes;
+    let likeCountInNumber = parseInt(likeCount.replace(/,/g, ""), 10);
+    likeCountInNumber++;
+    selectedComment.likes = likeCountInNumber.toLocaleString("en-US");
+
+    fs.writeFile(videosFile, JSON.stringify(videoData), (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.status(200).send("Comment Liked");
     });
   });
 });
