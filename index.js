@@ -7,7 +7,7 @@ const videoRoutes = require("./routes/videos");
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 
-app.use(cors());
+app.use(cors({ origin :"http://localhost:3000" }));
 
 app.use(express.json());
 

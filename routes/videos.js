@@ -74,8 +74,8 @@ router.get("/:id", (req, res) => {
     }
     const viewsCount = selectedVideo.views;
     let viewCount = selectedVideo.views;
-    if(typeof viewCount === "string"){
-        viewCount = parseInt(viewCount.replace(/,/g, ""), 10);
+    if (typeof viewCount === "string") {
+      viewCount = parseInt(viewCount.replace(/,/g, ""), 10);
     }
     viewCount++;
     selectedVideo.views = viewsCount.toLocaleString("en-US");
@@ -163,8 +163,8 @@ router.put("/:videoId/comments/:commentId/likes", (req, res) => {
       (comment) => comment.id === commentId
     );
     let likeCount = selectedComment.likes;
-    if(typeof likeCount === "string"){
-        likeCount = parseInt(likeCount.replace(/,/g, ""), 10);
+    if (typeof likeCount === "string") {
+      likeCount = parseInt(likeCount.replace(/,/g, ""), 10);
     }
     likeCount++;
     selectedComment.likes = likeCount.toLocaleString("en-US");
@@ -191,8 +191,8 @@ router.put("/:videoId/likes", (req, res) => {
       return req.status(404).send("Video not found.");
     }
     let likeCount = selectedVideo.likes;
-    if(typeof likeCount === "string"){
-        likeCount = parseInt(likeCount.replace(/,/g, ""), 10);
+    if (typeof likeCount === "string") {
+      likeCount = parseInt(likeCount.replace(/,/g, ""), 10);
     }
     likeCount++;
     selectedVideo.likes = likeCount.toLocaleString("en-US");
