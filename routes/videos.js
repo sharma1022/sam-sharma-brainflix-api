@@ -4,8 +4,21 @@ const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const randomName = require("random-name");
+const multer = require("multer");
 
 const videosFile = path.join(__dirname, "../data/video-details.json");
+
+//multer setup
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "public/images");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${+Date.now()}_${file.originalname}`);
+    }
+});
+
+const upload = multer({ storage });
 
 //get all videos
 router
@@ -25,7 +38,7 @@ router
       );
     });
   })
-  .post((req, res) => {
+  .post(upload.single("file"), (req, res) => {
     if (req.body.title === "" || req.body.description === "") {
       return res.status(400).send("Missing Information.");
     }
@@ -39,7 +52,7 @@ router
         id: uuidv4(),
         title: req.body.title,
         channel: randomName.first() + " " + randomName.last(),
-        image: "/images/Upload-video-preview.jpg",
+        image: `/images/${req.file.filename}`,
         description: req.body.description,
         views: "0",
         likes: "0",
