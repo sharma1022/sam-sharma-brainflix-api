@@ -11,13 +11,13 @@ const videosFile = path.join(__dirname, "../data/video-details.json");
 //multer setup
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "public/images");
+        cb(null, "public/images/");
     },
     filename: (req, file, cb) => {
-        cb(null, `${+Date.now()}_${file.originalname}`);
-    }
+        cb(null, `${+Date.now()}-${file.originalname}`);
+    },
+    limits: { fieldSize: 10 * 1024 * 1024 },
 });
-
 const upload = multer({ storage });
 
 //get all videos
@@ -52,9 +52,9 @@ router
         id: uuidv4(),
         title: req.body.title,
         channel: randomName.first() + " " + randomName.last(),
-        image: `/images/${req.file.filename}`,
+        image:req.file ? `/images/${req.file.filename}` : req.body.image,
         description: req.body.description,
-        views: "0",
+        views: 0,
         likes: "0",
         duration: "4:01",
         video: "https://unit-3-project-api-0a5620414506.herokuapp.com/stream",
