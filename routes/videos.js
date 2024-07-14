@@ -38,6 +38,7 @@ router
       );
     });
   })
+  //post video route
   .post(upload.single("file"), (req, res) => {
     if (req.body.title === "" || req.body.description === "") {
       return res.status(400).send("Missing Information.");
