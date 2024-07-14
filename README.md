@@ -1,1 +1,1 @@
-API for Brainflix projecct - Brainstation 
+API for Brainflix project - Brainstation 
