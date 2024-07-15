@@ -1,13 +1,13 @@
 # Backend API for Brainflix project - Brainstation 
 
-##Key Features
+## Key Features
 
--NodeJS
--Express.js
--Multer library.
--REST API.
+- NodeJS
+- Express.js
+- Multer library.
+- REST API.
 
-##Installation
+## Installation
 In the projeect directory,
 
 Install dependencies with npm.
