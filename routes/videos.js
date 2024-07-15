@@ -28,6 +28,7 @@ router
       if (err) {
         return res.status(500).send(err);
       }
+      res.set({ 'Content-Length': 70 });
       res.status(200).json(
         JSON.parse(data).map((video) => ({
           id: video.id,
