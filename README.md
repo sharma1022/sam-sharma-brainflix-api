@@ -8,7 +8,7 @@
 - REST API.
 
 ## Installation
-In the projeect directory,
+In the project directory,
 
 Install dependencies with npm.
 ```bash
@@ -17,16 +17,16 @@ npm install
 
 Install nodemon
 ```bash
-### `npm install --save-dev nodemon`
+npm install --save-dev nodemon
 ```
 
 Start the server
 ```bash
-### `npm dev`
+npm dev
 ```
 or
 ```bash
-### `nodemon server.js`
+nodemon server.js
 ```
 
 
