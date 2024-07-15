@@ -11,16 +11,23 @@
 In the projeect directory,
 
 Install dependencies with npm.
-### `npm install`
+```bash
+npm install
+```
 
 Install nodemon
+```bash
 ### `npm install --save-dev nodemon`
+```
 
 Start the server
+```bash
 ### `npm dev`
+```
 or
+```bash
 ### `nodemon server.js`
-
+```
 
 
 
