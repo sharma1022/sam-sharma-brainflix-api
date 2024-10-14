@@ -7,7 +7,7 @@ const videoRoutes = require("./routes/videos");
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 
-app.use(cors({ origin :"https://brainflix-chi.vercel.app/" }));
+app.use(cors({ origin :"https://brainflix-chi.vercel.app" }));
 
 app.use(express.json());
 
