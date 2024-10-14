@@ -11,6 +11,8 @@ app.use(cors({ origin :"https://brainflix-chi.vercel.app" }));
 
 app.use(express.json());
 
+app.use(express.static("public"));
+
 app.use("/videos", videoRoutes);
 app.get("/",(req,res)=> {
     res.send("Welcome to Brainflix API");
