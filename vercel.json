@@ -10,7 +10,7 @@
       {
         "src": "/(.*)",
         "headers": {
-        "Content-Security-Policy": "default-src 'self'; script-src 'self' https://vercel.live"
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' https://vercel.live; connect-src 'self' https://vercel.live; img-src 'self'; style-src 'self';"
       },
         "dest": "/"
       }
