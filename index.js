@@ -6,6 +6,13 @@ const videoRoutes = require("./routes/videos");
 
 require("dotenv").config();
 const PORT = process.env.PORT || 8080;
+app.use((req, res, next) => {
+    res.setHeader(
+        "Content-Security-Policy",
+        "default-src 'self'; script-src 'self' https://vercel.live; connect-src 'self' https://vercel.live; img-src 'self'; style-src 'self';"
+    );
+    next();
+});
 
 app.use(cors({ origin :"https://brainflix-chi.vercel.app" }));
 
