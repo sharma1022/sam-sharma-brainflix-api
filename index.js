@@ -1,30 +1,20 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
 const videoRoutes = require("./routes/videos");
 
+// Configuration
 require("dotenv").config();
-const PORT = process.env.PORT || 8080;
-app.use((req, res, next) => {
-    res.setHeader(
-        "Content-Security-Policy",
-        "default-src 'self'; script-src 'self' https://vercel.live; connect-src 'self' https://vercel.live; img-src 'self'; style-src 'self';"
-    );
-    next();
-});
+const PORT = process.env.PORT || 5001;
 
-app.use(cors({ origin :"https://brainflix-chi.vercel.app" }));
+// Middleware
+app.use(cors());
+app.use(express.static("public")); 
+app.use(express.json()); 
 
-app.use(express.json());
-
-app.use(express.static("public"));
-
+// Routes
 app.use("/videos", videoRoutes);
-app.get("/",(req,res)=> {
-    res.send("Welcome to Brainflix API");
-})
 
 app.listen(PORT, () => {
     console.log(`Express server listening on port ${PORT}`);
-})
+});
